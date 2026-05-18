@@ -1,6 +1,31 @@
-node_modules
+# dependencies
+node_modules/
+
+# environment variables
 .env
-dist
-build
-generated
-.prisma
+
+# build files
+dist/
+build/
+
+# logs
+logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Vite
+.vite/
+
+# Prisma
+prisma/dev.db
+
+# IDE
+.vscode/
+.idea/
+
+# Electron
+out/
+release/

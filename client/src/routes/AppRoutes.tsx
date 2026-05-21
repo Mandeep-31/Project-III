@@ -8,9 +8,8 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import VerifyOTP from "../pages/VerifyOTP";
-
-import ProtectedRoute
-from "./ProtectedRoute";
+import Friends from "../pages/Friends";
+import ProtectedRoute from "./ProtectedRoute";
 
 import PublicRoute
 from "./PublicRoute";
@@ -57,7 +56,14 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
-
+        <Route
+  path="/friends"
+  element={
+    <ProtectedRoute>
+      <Friends />
+    </ProtectedRoute>
+  }
+/>
       </Routes>
 
     </BrowserRouter>

@@ -30,10 +30,47 @@ export const register = async (
       });
 
     if (existingUser) {
-      return res.status(400).json({
-        message: "User already exists"
-      });
+
+  // verified user already exists
+  if (existingUser.isVerified) {
+
+    return res.status(400).json({
+      message: "User already exists"
+    });
+
+  }
+
+  // resend OTP for unverified user
+  const otp = otpGenerator.generate(6, {
+    upperCaseAlphabets: false,
+    lowerCaseAlphabets: false,
+    specialChars: false,
+  });
+
+  const otpExpiry = new Date(
+    Date.now() + 5 * 60 * 1000
+  );
+
+  await prisma.user.update({
+    where: {
+      id: existingUser.id
+    },
+
+    data: {
+      otp,
+      otpExpiry,
     }
+  });
+
+  console.log("Resent OTP:", otp);
+
+  await sendOTP(email, otp);
+
+  return res.status(200).json({
+    message: "OTP resent successfully"
+  });
+
+}
 
     const hashedPassword =
       await bcrypt.hash(password, 10);
@@ -61,7 +98,7 @@ export const register = async (
     console.log("OTP:", otp);
 
     // later:
-    // await sendOTP(email, otp);
+    await sendOTP(email, otp);
 
     res.status(201).json({
       message: "OTP generated",

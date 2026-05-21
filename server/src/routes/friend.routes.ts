@@ -1,10 +1,14 @@
 import { Router } from "express";
 
-import { authenticate }
-from "../middleware/auth.middleware";
+import {
+  authenticate
+} from "../middleware/auth.middleware";
 
 import {
-  sendFriendRequest
+  sendFriendRequest,
+  getPendingRequests,
+  acceptFriendRequest,
+  getFriends
 } from "../controllers/friend.controller";
 
 const router = Router();
@@ -15,4 +19,21 @@ router.post(
   sendFriendRequest
 );
 
+router.get(
+  "/pending",
+  authenticate,
+  getPendingRequests
+);
+
+
+router.post(
+  "/accept",
+  authenticate,
+  acceptFriendRequest
+);
+router.get(
+  "/all",
+  authenticate,
+  getFriends
+);
 export default router;
